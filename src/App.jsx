@@ -40,23 +40,6 @@ const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [gifList, setGifList] = useState([]);
 
-  // Define functions to run on page load
-  useEffect(() => {
-    const onLoad = async () => {
-      await checkIfWalletIsConnected();
-    };
-
-    window.addEventListener('load', onLoad);
-    return () => window.removeEventListener('load', onLoad);
-  }, []);
-
-  useEffect(() => {
-    if (walletAddress) {
-      console.log('Fetching GIF list...');
-      getGifList();
-    }
-  }, [walletAddress]);
-
   // Check if wallet is connected
   const checkIfWalletIsConnected = async () => {
     try {
@@ -158,6 +141,25 @@ const App = () => {
       console.log('Error creating BaseAccount account:', error);
     }
   };
+
+  // Define functions to run on page load
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletIsConnected();
+    };
+
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+
+  useEffect(() => {
+    if (walletAddress) {
+      console.log('Fetching gif list.');
+      getGifList();
+    }
+
+    // eslint-disable-next-line
+  }, [walletAddress]);
 
   return (
     <div className="App">

@@ -7,6 +7,7 @@ A web application that allows you to create and share wall of gifs! Built on top
 ### Getting the frontend up and running
 
 Install the dependencies first for the project.
+
 ```sh
 yarn
 # OR
@@ -33,6 +34,7 @@ Once you have deployed, copy the IDL file from `target/idl/solana_app.json` in `
 into a file called `idl.json`.
 
 Done? Awesome! Now, generate the keypair for handling accounts.
+
 ```sh
 cd src
 node createKeyPair.js
@@ -41,6 +43,7 @@ cd ..
 
 Now, Open up your phantom wallet (Install it, if you don't have it!), and switch the network to devnet. Then, fund the account
 by copying the public key, and using this command,
+
 ```sh
 solana airdrop 5 <wallet-public-key>  --url https://api.devnet.solana.com
 ```
@@ -54,21 +57,25 @@ To get started with solana, you need to have rust installed on your local system
 To quickly install solana, Follow this [guide](https://docs.solana.com/cli/install-solana-cli-tools#use-solanas-install-tool).
 
 Ensure that it's installed by running,
+
 ```sh
 solana --version
 ```
 
 If it works without errors, That means it's good to go. Now it's time to install Anchor. This command will help you do so,
+
 ```sh
 cargo install --git https://github.com/project-serum/anchor anchor-cli --locked
 ```
 
 To test if it works fine too, use this command.
+
 ```sh
 anchor --version
 ```
 
 Now, Generate a Keypair using the solana CLI suite and check the address.
+
 ```sh
 solana-keygen new
 solana address
@@ -77,11 +84,13 @@ solana address
 ### Deploying your Solana program to devnet
 
 To start deploying, first switch your net to devnet.
+
 ```sh
 solana config set --url devnet
 ```
 
 Finally, airdrop yourself some SOL on the devnet.
+
 ```sh
 solana airdrop 5
 solana balance
@@ -90,11 +99,13 @@ solana balance
 Now, It's time to configure the variables.
 
 Run the build through anchor using,
+
 ```sh
 anchor build
 ```
 
 This creates a program ID for us. Access it using,
+
 ```
 solana address -k target/deploy/solana_app-keypair.json
 ```

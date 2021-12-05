@@ -1,4 +1,4 @@
-const RenderNotConnectedWallet = ({ connectWallet }) => {
+const RenderNotConnectedContainer = ({ connectWallet }) => {
   return (
     <div>
       <button
@@ -11,4 +11,4 @@ const RenderNotConnectedWallet = ({ connectWallet }) => {
   );
 };
 
-export default RenderNotConnectedWallet;
+export default RenderNotConnectedContainer;

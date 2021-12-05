@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import RenderNotConnectedWallet from './components/RenderNotConnectedWallet';
+import RenderConnectedContainer from './components/RenderConnectedContainer';
+import RenderNotConnectedContainer from './components/RenderNotConnectedContainer';
 
 import './App.css';
 
@@ -13,6 +14,12 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const App = () => {
   // States for wallet
   const [walletAddress, setWalletAddress] = useState(null);
+  const [gifList, setGifList] = useState([
+    'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
+    'https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g',
+    'https://media4.giphy.com/media/AeFmQjHMtEySooOc8K/giphy.gif?cid=ecf05e47qdzhdma2y3ugn32lkgi972z9mpfzocjj6z1ro4ec&rid=giphy.gif&ct=g',
+    'https://i.giphy.com/media/PAqjdPkJLDsmBRSYUp/giphy.webp'
+  ]);
 
   // Define functions to run on page load
   useEffect(() => {
@@ -23,6 +30,17 @@ const App = () => {
     window.addEventListener('load', onLoad);
     return () => window.removeEventListener('load', onLoad);
   }, []);
+
+  useEffect(() => {
+    if (walletAddress) {
+      console.log('Fetching GIF list...');
+
+      // Call Solana program here.
+
+      // Set state
+      // setGifList(TEST_GIFS);
+    }
+  }, [walletAddress]);
 
   // Check if wallet is connected
   const checkIfWalletIsConnected = async () => {
@@ -81,7 +99,14 @@ const App = () => {
           </p>
 
           {!walletAddress && (
-            <RenderNotConnectedWallet connectWallet={connectWallet} />
+            <RenderNotConnectedContainer connectWallet={connectWallet} />
+          )}
+
+          {walletAddress && (
+            <RenderConnectedContainer
+              gifList={gifList}
+              setGifList={setGifList}
+            />
           )}
         </div>
         <div className="footer-container">

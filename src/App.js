@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import './App.css';
 
 import twitterLogo from './assets/twitter-logo.svg';
@@ -7,6 +9,34 @@ const TWITTER_HANDLE = 'janaSunrise';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
 const App = () => {
+  // Define functions to run on page load
+  useEffect(() => {
+    const onLoad = async () => {
+      await checkIfWalletIsConnected();
+    };
+    window.addEventListener('load', onLoad);
+    return () => window.removeEventListener('load', onLoad);
+  }, []);
+
+  // Check if wallet is connected
+  const checkIfWalletIsConnected = () => {
+    try {
+      // Get the solana object
+      const { solana } = window;
+
+      if (solana) {
+        // If phantom wallet is found
+        if (solana.isPhantom) {
+          console.log('Phantom wallet found.');
+        }
+      } else {
+        alert('Solana object not found! Get a Phantom Wallet 👻');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="App">
       <div className="container">

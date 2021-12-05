@@ -13,7 +13,7 @@ import idl from './assets/idl.json';
 import twitterLogo from './assets/twitter-logo.svg';
 
 // Solana runtime reference: SystemRuntime
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Initialize the base account
 const arr = Object.values(kp._keypair.secretKey);
@@ -175,7 +175,6 @@ const App = () => {
           {walletAddress && (
             <RenderConnectedContainer
               gifList={gifList}
-              setGifList={setGifList}
               createGifAccount={createGifAccount}
               getProvider={getProvider}
               Program={Program}

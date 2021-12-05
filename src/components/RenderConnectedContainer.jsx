@@ -4,7 +4,6 @@ import idl from '../assets/idl.json';
 
 const RenderConnectedContainer = ({
   gifList,
-  setGifList,
   createGifAccount,
   getProvider,
   Program,

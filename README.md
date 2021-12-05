@@ -113,6 +113,9 @@ solana address -k target/deploy/solana_app-keypair.json
 Copy the ID, and change it in the `declare_id!()` section in the `lib.rs` located inside `programs/solana_app/src`. Now,
 go to `Anchor.toml`, and replace the ID with the same one you copied above under `[programs.devnet]`.
 
+By default the location for the keypair for Anchor to load is set to `~/.config/solana/id.json`. If you are using a custom
+path, make sure to update the `Anchor.toml` to use your custom path.
+
 Good to go? Now run `anchor build`!
 
 Awesome. Now, just deploy it using the final command - `anchor deploy`. Boom, You're all set.

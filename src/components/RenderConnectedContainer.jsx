@@ -80,9 +80,9 @@ const RenderConnectedContainer = ({
       </form>
 
       <div className="gif-grid">
-        {gifList.map(gif => (
-          <div className="gif-item" key={gif}>
-            <img src={gif.gifLink} alt={gif} />
+        {gifList.map((item, index) => (
+          <div className="gif-item" key={index}>
+            <img src={item.gifLink} />
           </div>
         ))}
       </div>

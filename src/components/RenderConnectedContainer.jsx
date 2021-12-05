@@ -82,7 +82,7 @@ const RenderConnectedContainer = ({
       <div className="gif-grid">
         {gifList.map((item, index) => (
           <div className="gif-item" key={index}>
-            <img src={item.gifLink} />
+            <img src={item.gifLink} alt="A gif from the Wall of gif!" />
           </div>
         ))}
       </div>

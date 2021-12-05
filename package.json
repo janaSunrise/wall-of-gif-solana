@@ -10,6 +10,8 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
+    "@project-serum/anchor": "^0.18.2",
+    "@solana/web3.js": "^1.31.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3"

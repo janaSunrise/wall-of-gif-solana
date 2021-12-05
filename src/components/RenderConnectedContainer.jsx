@@ -1,6 +1,17 @@
 import { useState } from 'react';
 
-const RenderConnectedContainer = ({ gifList, setGifList }) => {
+import idl from '../assets/idl.json';
+
+const RenderConnectedContainer = ({
+  gifList,
+  setGifList,
+  createGifAccount,
+  getProvider,
+  Program,
+  programID,
+  getGifList,
+  baseAccount
+}) => {
   // States
   const [inputValue, setInputValue] = useState('');
 
@@ -13,16 +24,42 @@ const RenderConnectedContainer = ({ gifList, setGifList }) => {
 
   // Add gif when submit is clicked
   const sendGif = async () => {
-    if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
+    if (inputValue.length === 0) {
+      console.log('No gif link given!');
+      return;
+    }
+    setInputValue('');
+    console.log('Gif link:', inputValue);
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
 
-      // Set the new gif, and reset input
-      setGifList([...gifList, inputValue]);
-      setInputValue('');
-    } else {
-      console.log('Empty input. Try again.');
+      await program.rpc.addGif(inputValue, {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey
+        }
+      });
+      console.log('GIF successfully sent to program', inputValue);
+
+      await getGifList();
+    } catch (error) {
+      console.log('Error sending GIF:', error);
     }
   };
+
+  if (gifList === null) {
+    return (
+      <div className="connected-container">
+        <button
+          className="cta-button submit-gif-button"
+          onClick={createGifAccount}
+        >
+          Do One-Time Initialization For GIF Program Account
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="connected-container">
@@ -46,7 +83,7 @@ const RenderConnectedContainer = ({ gifList, setGifList }) => {
       <div className="gif-grid">
         {gifList.map(gif => (
           <div className="gif-item" key={gif}>
-            <img src={gif} alt={gif} />
+            <img src={gif.gifLink} alt={gif} />
           </div>
         ))}
       </div>

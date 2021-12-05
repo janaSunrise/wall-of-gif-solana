@@ -30,3 +30,15 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Binary files generated
+*.so
+*.dll
+*.dylib
+
+# Rust
+target/
+Cargo.lock
+
+# Solana
+test-ledger/

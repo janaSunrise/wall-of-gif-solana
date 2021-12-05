@@ -1,0 +1,14 @@
+# Anchor
+.anchor
+
+# MacOS
+.DS_Store
+
+# Cargo
+target/
+
+# Rust
+**/*.rs.bk
+
+# Node
+node_modules/

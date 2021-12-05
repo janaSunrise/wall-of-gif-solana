@@ -1,11 +1,35 @@
 import { useEffect, useState } from 'react';
 
+import { Connection, PublicKey, clusterApiUrl } from '@solana/web3.js';
+import { Program, Provider, web3 } from '@project-serum/anchor';
+
 import RenderConnectedContainer from './components/RenderConnectedContainer';
 import RenderNotConnectedContainer from './components/RenderNotConnectedContainer';
 
 import './App.css';
 
+import kp from './keypair.json';
+import idl from './assets/idl.json';
 import twitterLogo from './assets/twitter-logo.svg';
+
+// Solana runtime reference: SystemRuntime
+const { SystemProgram, Keypair } = web3;
+
+// Initialize the base account
+const arr = Object.values(kp._keypair.secretKey);
+const secret = new Uint8Array(arr);
+const baseAccount = web3.Keypair.fromSecretKey(secret);
+
+// Get our program's id from the IDL file.
+const programID = new PublicKey(idl.metadata.address);
+
+// Set our network to devnet.
+const network = clusterApiUrl('devnet');
+
+// Controls how we want to acknowledge when a transaction is "done".
+const opts = {
+  preflightCommitment: 'processed'
+};
 
 // Constants
 const TWITTER_HANDLE = 'janaSunrise';
@@ -14,12 +38,7 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const App = () => {
   // States for wallet
   const [walletAddress, setWalletAddress] = useState(null);
-  const [gifList, setGifList] = useState([
-    'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
-    'https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g',
-    'https://media4.giphy.com/media/AeFmQjHMtEySooOc8K/giphy.gif?cid=ecf05e47qdzhdma2y3ugn32lkgi972z9mpfzocjj6z1ro4ec&rid=giphy.gif&ct=g',
-    'https://i.giphy.com/media/PAqjdPkJLDsmBRSYUp/giphy.webp'
-  ]);
+  const [gifList, setGifList] = useState([]);
 
   // Define functions to run on page load
   useEffect(() => {
@@ -34,11 +53,7 @@ const App = () => {
   useEffect(() => {
     if (walletAddress) {
       console.log('Fetching GIF list...');
-
-      // Call Solana program here.
-
-      // Set state
-      // setGifList(TEST_GIFS);
+      getGifList();
     }
   }, [walletAddress]);
 
@@ -89,6 +104,61 @@ const App = () => {
     }
   };
 
+  // Get provider
+  const getProvider = () => {
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(
+      connection,
+      window.solana,
+      opts.preflightCommitment
+    );
+    return provider;
+  };
+
+  // Function to get the list of gifs
+  const getGifList = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(
+        baseAccount.publicKey
+      );
+
+      console.log('Got the account', account);
+      setGifList(account.gifList);
+    } catch (error) {
+      console.log('Error in getGifList: ', error);
+      setGifList(null);
+    }
+  };
+
+  // Create solana account for gifs
+  const createGifAccount = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+
+      // Start stuff off API
+      await program.rpc.startStuffOff({
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId
+        },
+        signers: [baseAccount]
+      });
+
+      // Create account
+      console.log(
+        'Created a new BaseAccount with address:',
+        baseAccount.publicKey.toString()
+      );
+      await getGifList();
+    } catch (error) {
+      console.log('Error creating BaseAccount account:', error);
+    }
+  };
+
   return (
     <div className="App">
       <div className={walletAddress ? 'authed-container' : 'container'}>
@@ -106,6 +176,12 @@ const App = () => {
             <RenderConnectedContainer
               gifList={gifList}
               setGifList={setGifList}
+              createGifAccount={createGifAccount}
+              getProvider={getProvider}
+              Program={Program}
+              programID={programID}
+              getGifList={getGifList}
+              baseAccount={baseAccount}
             />
           )}
         </div>

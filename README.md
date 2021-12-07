@@ -14,7 +14,7 @@ yarn
 npm install
 ```
 
-Now, Go to the solana app, and install its dependencies in the same way.
+Now, go to the solana app, and install its dependencies in the same way.
 
 ```
 cd solana_app

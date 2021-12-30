@@ -62,11 +62,10 @@ Ensure that it's installed by running,
 solana --version
 ```
 
-If it works without errors, That means it's good to go. Now it's time to install Anchor. This command will help you do so,
+If it works without errors, That means it's good to go.
 
-```sh
-cargo install --git https://github.com/project-serum/anchor anchor-cli --locked
-```
+Now it's time to install Anchor. You can install it easily by following the official documentation,
+[here](https://project-serum.github.io/anchor/getting-started/installation.html#install-rust).
 
 To test if it works fine too, use this command.
 

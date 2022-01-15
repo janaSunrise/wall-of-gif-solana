@@ -16,7 +16,7 @@ npm install
 
 Now, go to the solana app, and install its dependencies in the same way.
 
-```
+```sh
 cd solana_app
 
 yarn
@@ -24,7 +24,7 @@ yarn
 npm install
 ```
 
-Once you're done, Ensure that you have the solana toolchain good to go. If you don't, there are instructions on How-to
+Once you're done, Ensure that you have the solana toolchain ready. If you don't, there are instructions on how-to do that
 in the section below.
 
 Now, you need to deploy your solana program. You can find the instructions in the section in the end of installation and

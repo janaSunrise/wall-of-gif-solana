@@ -97,6 +97,10 @@ solana balance
 
 Now, It's time to configure the variables.
 
+In `Anchor.toml`, change `[programs.localnet]` to `[programs.devnet]`.
+
+Then, change `cluster = "localnet"` to `cluster = "devnet"`.
+
 Run the build through anchor using,
 
 ```sh

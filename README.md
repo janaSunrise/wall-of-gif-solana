@@ -91,7 +91,7 @@ solana config set --url devnet
 Finally, airdrop yourself some SOL on the devnet.
 
 ```sh
-solana airdrop 5
+solana airdrop 2
 solana balance
 ```
 
@@ -105,11 +105,11 @@ anchor build
 
 This creates a program ID for us. Access it using,
 
-```
+```sh
 solana address -k target/deploy/solana_app-keypair.json
 ```
 
-Copy the ID, and change it in the `declare_id!()` section in the `lib.rs` located inside `programs/solana_app/src`. Now,
+Copy the ID and change it in the `declare_id!()` section in the `lib.rs` located inside `programs/solana_app/src`. Now,
 go to `Anchor.toml`, and replace the ID with the same one you copied above under `[programs.devnet]`.
 
 By default the location for the keypair for Anchor to load is set to `~/.config/solana/id.json`. If you are using a custom
